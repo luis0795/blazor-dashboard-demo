@@ -1,0 +1,14 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, Blazor!</h1>
+
+<button class="btn btn-primary" @onclick="TestClick">Test Button</button>
+
+@code {
+    private void TestClick()
+    {
+        Console.WriteLine("Button clicked!");
+    }
+}
