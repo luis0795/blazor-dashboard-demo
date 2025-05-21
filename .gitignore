@@ -1,0 +1,43 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build output
+bin/
+obj/
+out/
+dist/
+publish/
+
+# .NET artifacts
+*.dll
+*.exe
+*.pdb
+*.appsettings.json
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# WebAssembly artifacts
+wwwroot/css/
+wwwroot/js/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Rider
+.idea/
+
+# Vercel
+.vercel/
+
+# Others
+node_modules/
+npm-debug.log
+.vscode/

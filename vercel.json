@@ -1,0 +1,15 @@
+{
+    "builds": [
+        {
+            "src": "publish/wwwroot/**",
+            "use": "@vercel/static"
+        }
+    ],
+    "outputDirectory": "publish/wwwroot",
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}
