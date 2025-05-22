@@ -1,34 +1,26 @@
-using BlazorDashboardDemo.Client.Pages;
-using BlazorDashboardDemo.Components;
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveWebAssemblyComponents();
+// Add services to the container (e.g., APIs)
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
 }
 else
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
+app.UseBlazorFrameworkFiles(); // Serve WASM static files
+app.UseStaticFiles();
+app.UseRouting();
 
-
-app.UseAntiforgery();
-
-app.MapStaticAssets();
-app.MapRazorComponents<App>()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(BlazorDashboardDemo.Client._Imports).Assembly);
+app.MapControllers(); // If you have APIs
+app.MapFallbackToFile("index.html"); // SPA fallback
 
 app.Run();
