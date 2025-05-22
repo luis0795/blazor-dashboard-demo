@@ -14,7 +14,6 @@ else
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles(); // Serve WASM static files
 app.UseStaticFiles();
