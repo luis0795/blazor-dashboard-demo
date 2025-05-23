@@ -1,0 +1,18 @@
+﻿.container-fluid {
+    display: grid;
+    grid-template-rows: 1fr;
+    min-height: 0;
+    height: 100%;
+    box-sizing: border-box;
+    padding: unset;
+}
+
+    .container-fluid .left-content {
+        overflow-x: auto;
+        min-height: 0;
+    }
+
+    .container-fluid .right-content {
+        overflow-x: auto;
+        min-height: 0;
+    }

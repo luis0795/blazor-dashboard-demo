@@ -1,0 +1,7 @@
+﻿.custom-body {
+    display: grid;
+    grid-row-gap: 0px;
+    grid-column-gap: 0px;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto minmax(0px, 1fr);
+}

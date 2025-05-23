@@ -1,0 +1,69 @@
+﻿<div class="@TopBottomClasses @CssClass" style="@Style">
+    <div class="@TopClasses @TopCssClass" style="@(!string.IsNullOrEmpty(TopHeight) ? $"Height: {TopHeight};" : "")">
+        @Top
+    </div>
+    <div class="@BottomClasses @BottomCssClass" style="@(!string.IsNullOrEmpty(BottomHeight) ? $"Height: {BottomHeight};" : "")">
+        @Bottom
+    </div>
+</div>
+
+@code {
+    public enum LayoutMode
+    {
+        ExpandTop,
+        ExpandBottom,
+        ScrollTop,
+        ScrollBottom,
+        Stack,
+    }
+    [Parameter]
+    public string TopHeight { get; set; }
+
+    [Parameter]
+    public string BottomHeight { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? Top { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? Bottom { get; set; }
+
+    [Parameter, EditorRequired]
+    public LayoutMode Mode { get; set; } = LayoutMode.ExpandTop;
+
+    [Parameter]
+    public string? CssClass { get; set; }
+
+    [Parameter]
+    public string? TopCssClass { get; set; }
+
+    [Parameter]
+    public string? BottomCssClass { get; set; }
+
+    [Parameter]
+    public string? Gap { get; set; }
+
+    private string? Style => !string.IsNullOrEmpty(Gap) ? $"grid-row-gap: {Gap}" : null;
+
+    private string TopBottomClasses => Mode switch
+    {
+        LayoutMode.ExpandTop or LayoutMode.ScrollTop => "top-fill-bottom-auto",
+        LayoutMode.ExpandBottom or LayoutMode.ScrollBottom => "top-auto-bottom-fill",
+        LayoutMode.Stack => "top-auto-bottom-auto",
+        _ => ""
+    };
+
+    private string TopClasses => Mode switch
+    {
+        LayoutMode.ExpandTop => "fill",
+        LayoutMode.ScrollTop => "fill scroll",
+        _ => ""
+    };
+
+    private string BottomClasses => Mode switch
+    {
+        LayoutMode.ExpandBottom => "fill",
+        LayoutMode.ScrollBottom => "fill scroll",
+        _ => ""
+    };
+}

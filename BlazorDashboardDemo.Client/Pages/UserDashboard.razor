@@ -1,0 +1,37 @@
+﻿@page "/userdashboard"
+@inject BlazorDashboardDemo.Shared.Services.IUserDashboardService DashboardService
+
+<BodyTemplate BodyContentStyle="padding: 25px 25px 25px 25px;">
+    <BodyContent>
+        @if (isLoading)
+        {
+            <p>Loading...</p>
+        }
+        else if (Dashboard != null)
+        {
+            <ul>
+                @foreach (var task in Dashboard.Tasks)
+                {
+                    <li>@task.Name (@task.Project) - @task.Created.ToShortDateString()</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No data available.</p>
+        }
+    </BodyContent>
+</BodyTemplate>
+
+
+@code {
+    private BlazorDashboardDemo.Shared.Models.UserDashboardViewModel? Dashboard;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // For demo, use a fixed userId
+        Dashboard = await DashboardService.GetDashboardAsync("demo-client", "demo-user");
+        isLoading = false;
+    }
+}

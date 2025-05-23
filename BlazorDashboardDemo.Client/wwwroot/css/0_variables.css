@@ -1,0 +1,103 @@
+﻿:root {
+    /* Colors: */
+    --dark: #020116;
+    --black: #000000;
+    --white: #FFFFFF;
+    --yellowCard: #FFDF0033;
+    --yellowText: #B69F00;
+    --light-text: #666679;
+    /* #region Blue */
+    --blue: #4034F0;
+    --darkblue: #261DAF;
+    --light-blue: #F4F3FF;
+    /* #endregion */
+    /* #region Grey */
+    --grey: #EEEEEE;
+    --grey2: #AAAAAA;
+    --grey3: #B7B5B5;
+    --lightgrey: #DBDBDB;
+    --lightgreyhover: #B9B9B9;
+    --darkgrey: #E0E0E0;
+    --sub-text-grey: #7C7C7C;
+    --hover-grey: #F5F5F5;
+    --user-chip-grey: #F6F6F6;
+    --separator: #EBEBEB;
+    --background: #F9F9F9;
+    --line-borders: #E4E4E4;
+    --idle-text: #C4C4C4;
+    /* #endregion */
+    /* #region Green */
+    --green: #CEFFD8;
+    --lightgreen: #E0FFD4;
+    --text-green: #4BCC19;
+    /* #endregion */
+    /* #region Red */
+    --danger: #CC0000;
+    --red: #FF5151;
+    --darkred: #EF4B4B;
+    --lightred: #FFE7E7;
+    --light-red: #FFCBCB;
+    /* #endregion */
+    /* #region Yellow */
+    --amber: #EEAE32;
+    --yellow: #FFF3DB;
+    --light-yellow: #FFF9CC;
+    --dark-yellow: #B69F00;
+    /* #endregion */
+    /* #region Purple */
+    --light-purple: #F1F0FE;
+    --purple: #645BF3;
+    --active-nav-purple: #7067F4;
+    /* #endregion */
+    --checkbox-border-color: #8b8c89;
+    --checkbox-checked-color: #274c77;
+    --checkbox-hover-color: #a3cef1;
+    --checkbox-disabled-bg-color: #d9d9d9;
+    --checkbox-checked-bg-color: lightgreen;
+    --dashed-border: #948FF5;
+    /* #region Creation Suite */
+    --creationsuite-blue: #AFFCF9;
+    --creationsuite-pink: #EFAFFC;
+    --creationsuite-yellow: #FFEECD;
+    --creationsuite-lightgreen: #FAFFCE;
+    /* #endregion */
+    /* font weights */
+    --normal: 400;
+    --medium: 500;
+    --semibold: 600;
+    --bold: 700;
+    /* #region tooltip*/
+    --tooltip-white-background: var(--white);
+    --tooltip-white-text-color: var(--dark);
+    --tooltip-border-r: 4px;
+    /* #endregion tooltip*/
+    --max-grid-height: 665px;
+}
+
+/* For screens smaller than 1280px */
+@media screen and (max-height: 1280px) {
+    :root {
+        --max-grid-height: 665px;
+    }
+}
+
+/* For screens smaller than 1024px */
+@media screen and (max-height: 1024px) {
+    :root {
+        --max-grid-height: 665px;
+    }
+}
+
+/* For screens smaller than 768px */
+@media screen and (max-height: 745px) {
+    :root {
+        --max-grid-height: 435px;
+    }
+}
+
+/* For very small screens */
+@media screen and (max-height: 640px) {
+    :root {
+        --max-grid-height: 265px;
+    }
+}

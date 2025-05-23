@@ -1,0 +1,118 @@
+﻿/* Prevent the underlying page from scrolling when a modal or popup menu is being shown. */
+
+html {
+    scrollbar-gutter: stable;
+}
+
+    html:has(.overlay, .menu-overlay, .popup-overlay):has(.prevent-scrolling) {
+        overflow: hidden;
+    }
+
+/* The overlay to allow us to detect clicks outside of a popup or modal. */
+
+.overlay, .menu-overlay, .popup-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+.overlayMenu {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+/* The overlay to take attention away from the underlying page (darken) when a modal is shown. */
+
+.overlay {
+    background-color: var(--blue);
+    opacity: 20%;
+    animation-name: fadeIn;
+    animation-duration: 0.4s;
+}
+
+.overlayMenu {
+    background-color: var(--blue);
+    opacity: 20%;
+    animation-name: fadeIn;
+    animation-duration: 0.4s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 20%
+    }
+}
+
+.dialog {
+    display: grid;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 12px;
+}
+
+.gap-20px > footer {
+    margin-bottom: 0;
+    justify-content: end;
+}
+
+.gap-20px > .flex-grow {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+/* #region user panel*/
+.user-panel-container {
+    width: 167px;
+    padding: 0 0 0 5px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box; /* Firefox, other Gecko */
+    box-sizing: border-box;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 4px;
+}
+    .user-panel-container.popup-visible {
+        background-color: var(--grey);
+    }
+
+    .user-panel-container:hover {
+        background-color: var(--grey);
+    }
+
+.user-panel-popup-menu .menu-item:not(.disabled):hover {
+    background-color: var(--white) !important;
+}
+
+.user-panel-popup-menu.popup-panel {
+    margin-top: 0 !important;
+}
+/* #endregion user panel*/
+
+.attach-workflow-dialog header .h1-custom {
+    font-weight: var(--semibold) !important;
+    font-size: 28px;
+}

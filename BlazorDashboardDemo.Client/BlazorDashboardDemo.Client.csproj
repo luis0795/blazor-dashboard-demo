@@ -23,4 +23,12 @@
     <ProjectReference Include="..\BlazorDashboardDemo.Shared\BlazorDashboardDemo.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\css\" />
+  </ItemGroup>
+	<ItemGroup>
+		<Content Update="**\*.razor.css">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 </Project>

@@ -1,0 +1,11 @@
+﻿.step-icon {
+    content: url('../images/step-icon.svg');
+    height: 15px;
+    width: 15px;
+}
+
+.address-book {
+    content: url('../images/address-book-regular.svg');
+    height: 15px;
+    width: 15px;
+}

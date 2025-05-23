@@ -1,0 +1,84 @@
+﻿.white-tooltip {
+    --tooltip-white-background: var(--white);
+    --tooltip-white-text-color: var(--dark);
+    --tooltip-border-r: 4px;
+}
+
+/* White Tooltip */
+.white-tooltip.e-tooltip-wrap.e-popup {
+    background-color: var(--tooltip-white-background);
+    border-radius: var(--tooltip-border-r);
+    border: none;
+    min-width: max-content;
+    -webkit-box-shadow: 0 0.5px 5px 1px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0 0.5px 5px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0.5px 5px 1px rgba(0, 0, 0, 0.05);
+}
+
+.white-tooltip.e-tooltip-wrap .e-tip-content {
+    font-family: Montserrat;
+    color: var(--tooltip-white-text-color);
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    padding: 10px;
+}
+
+.white-tooltip.e-tooltip-wrap .e-arrow-tip {
+    display: none;
+}
+
+
+/* #region Tooltips*/
+
+.e-tooltip-wrap {
+    border-radius: 4px;
+    opacity: 1;
+    border: 2px solid transparent !important;
+    white-space: nowrap;
+}
+
+    .e-tooltip-wrap.e-popup {
+        background-color: var(--tooltip-white-background) !important;
+        border-radius: var(--tooltip-border-r);
+        border: none;
+        white-space: nowrap;
+        -webkit-box-shadow: 0 1px 5px 1px rgba(0, 0, 0, 0.1) !important;
+        -moz-box-shadow: 0 1px 5px 1px rgba(0, 0, 0, 0.1) !important;
+        box-shadow: 0 1px 5px 1px rgba(0, 0, 0, 0.1) !important;
+        filter: drop-shadow(0 0.5px 5px 1px rgba(0, 0, 0, 0.1)) !important;
+    }
+
+    .e-tooltip-wrap .e-tip-content {
+        font-family: Montserrat;
+        color: var(--tooltip-white-text-color) !important;
+        font-size: 12px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        padding: 10px;
+    }
+    .e-tooltip-wrap .e-arrow-tip.e-tip-bottom {
+        visibility: hidden;
+    }
+
+    .e-tooltip-wrap .e-arrow-tip-inner.e-tip-bottom {
+        visibility: hidden;
+    }
+
+    .e-tooltip-wrap .e-arrow-tip-outer.e-tip-bottom {
+        visibility: hidden;
+    }
+
+    .e-tooltip-wrap .e-arrow-tip {
+        visibility: hidden;
+    }
+ 
+/* #endregion Tooltips end */

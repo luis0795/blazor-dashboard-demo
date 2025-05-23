@@ -1,0 +1,11 @@
+﻿<div class="custom-body" style="@BodyContentStyle">
+    @BodyContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? @BodyContent { get; set; }
+
+    [Parameter]
+    public string? BodyContentStyle { get; set; }
+}
