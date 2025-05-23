@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorDashboardDemo.Client\BlazorDashboardDemo.Client.csproj" />
+    <ProjectReference Include="..\BlazorDashboardDemo.Shared\BlazorDashboardDemo.Shared.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.4" />
   </ItemGroup>
 
