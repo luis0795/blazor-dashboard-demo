@@ -1,6 +1,5 @@
 ﻿@inject IJSRuntime JsRuntime
 
-
 <div class="container-fluid @containerCss" style="@Style;grid-template-columns: @LeftWidth @RightWidth;grid-template-rows: @RowHeight">
     <div class="left-content @LeftCss">
         @Left
@@ -10,13 +9,12 @@
     </div>
 </div>
 
-
 @code {
-    [Parameter] public string LeftCss { get; set; }
+    [Parameter] public string? LeftCss { get; set; }
 
-    [Parameter] public string RightCss { get; set; }
+    [Parameter] public string? RightCss { get; set; }
 
-    [Parameter] public string containerCss { get; set; }
+    [Parameter] public string? containerCss { get; set; }
 
     [Parameter] public bool ResponsiveContainer { get; set; }
 
@@ -29,53 +27,58 @@
     [Parameter]
     public string RowHeight { get; set; } = "1fr";
 
+    [Parameter]
+    public RenderFragment? Left { get; set; }
 
     [Parameter]
-    public RenderFragment Left { get; set; }
+    public RenderFragment? ButtonContainer { get; set; }
 
     [Parameter]
-    public RenderFragment ButtonContainer { get; set; }
-
-    [Parameter]
-    public RenderFragment Right { get; set; }
+    public RenderFragment? Right { get; set; }
 
     [Parameter]
     public string? Gap { get; set; }
 
     private string? Style => !string.IsNullOrEmpty(Gap) ? $"grid-column-gap: {Gap}" : null;
 
-    private string ContentStyle(string width)
+    private string ContentStyle(string? width)
     {
-        string[] parts = width?.Split("-", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries) ?? [""];
-        string part1 = parts[0];
-        string part2 = parts.Length > 1 ? parts[1] : null;
-
-        switch (part1)
+        if (string.IsNullOrEmpty(width))
         {
-            case null:
-            case "":
-            case "content":
-            case "auto":
-                return "flex-grow: 0; flex-shrink: 0; flex-basis: auto;";
-            case "fill":
-                string growShrinkFactor = "1";
-                string flexBasis = "1px";
-                if (part2 != null)
-                {
-                    if (part2 == "auto")
-                    {
-                        growShrinkFactor = "1";
-                        flexBasis = "auto";
-                    }
-                    else
-                    {
-                        growShrinkFactor = part2;
-                        flexBasis = "1px";
-                    }
-                }
-                return $"min-width: 0; flex-shrink: {growShrinkFactor}; flex-grow: {growShrinkFactor}; flex-basis: {flexBasis};";
-            default:
-                return $"flex-basis: {width}; flex-shrink: 0; flex-grow: 0;";
+            return "flex-grow: 0; flex-shrink: 0; flex-basis: auto;";
         }
+
+        string[] parts = width.Split("-", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        string part1 = parts.Length > 0 ? parts[0] : string.Empty;
+        string? part2 = parts.Length > 1 ? parts[1] : null;
+
+        return part1 switch
+        {
+            "content" or "auto" => "flex-grow: 0; flex-shrink: 0; flex-basis: auto;",
+            "fill" => BuildFillStyle(part2),
+            _ => $"flex-basis: {width}; flex-shrink: 0; flex-grow: 0;"
+        };
+    }
+
+    private static string BuildFillStyle(string? growFactor)
+    {
+        string growShrinkFactor = "1";
+        string flexBasis = "1px";
+
+        if (!string.IsNullOrEmpty(growFactor))
+        {
+            if (growFactor == "auto")
+            {
+                growShrinkFactor = "1";
+                flexBasis = "auto";
+            }
+            else
+            {
+                growShrinkFactor = growFactor;
+                flexBasis = "1px";
+            }
+        }
+
+        return $"min-width: 0; flex-shrink: {growShrinkFactor}; flex-grow: {growShrinkFactor}; flex-basis: {flexBasis};";
     }
 }

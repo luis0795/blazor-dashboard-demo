@@ -17,10 +17,10 @@
         Stack,
     }
     [Parameter]
-    public string TopHeight { get; set; }
+    public string? TopHeight { get; set; }
 
     [Parameter]
-    public string BottomHeight { get; set; }
+    public string? BottomHeight { get; set; }
 
     [Parameter, EditorRequired]
     public RenderFragment? Top { get; set; }

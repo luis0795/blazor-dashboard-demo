@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
-using BlazorDashboardDemo.Shared.Models;
+﻿using BlazorDashboardDemo.Shared.Models;
 
-namespace BlazorDashboardDemo.Shared.Services
+namespace BlazorDashboardDemo.Shared.Services;
+
+public interface IUserDashboardService
 {
-    public interface IUserDashboardService
-    {
-        Task<UserDashboardViewModel> GetDashboardAsync(string clientId, string userId);
-    }
+    Task<UserDashboardViewModel> GetDashboardDataAsync();
+    Task<bool> UpdateTaskAsync(TaskModel task);
+    Task<bool> PinTaskAsync(string taskId, bool isPinned);
+    Task<bool> ClaimTaskAsync(string taskId);
 }

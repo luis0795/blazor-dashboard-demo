@@ -1,37 +1,152 @@
 ﻿@page "/userdashboard"
-@inject BlazorDashboardDemo.Shared.Services.IUserDashboardService DashboardService
+@using BlazorDashboardDemo.Shared.Models
+@using BlazorDashboardDemo.Shared.Services
+@inject IUserDashboardService DashboardService
 
-<BodyTemplate BodyContentStyle="padding: 25px 25px 25px 25px;">
-    <BodyContent>
-        @if (isLoading)
-        {
-            <p>Loading...</p>
-        }
-        else if (Dashboard != null)
-        {
-            <ul>
-                @foreach (var task in Dashboard.Tasks)
-                {
-                    <li>@task.Name (@task.Project) - @task.Created.ToShortDateString()</li>
-                }
-            </ul>
-        }
-        else
-        {
-            <p>No data available.</p>
-        }
-    </BodyContent>
-</BodyTemplate>
+<MainPageTemplate>
+    <Body>
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h1>Dashboard</h1>
+            </div>
 
+            @if (isLoading)
+            {
+                <div class="loading-indicator">Loading...</div>
+            }
+            else if (viewModel is not null)
+            {
+                <LeftRightLayout LeftWidth="1fr" RightWidth="375px" Gap="25px">
+                    <Left>
+                        <TopBottomLayout Gap="18px" Mode="TopBottomLayout.LayoutMode.Stack">
+                            <Top>
+                                <div class="dashboard-card">
+                                    <div class="card-header">
+                                        <h2>Pinned Tasks (@viewModel.PinnedTasks.Count())</h2>
+                                    </div>
+                                    <div class="card-body">
+                                        @if (!viewModel.PinnedTasks.Any())
+                                        {
+                                            <div class="empty-state">
+                                                <p>Pin a task to make it appear here</p>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="task-grid">
+                                                @foreach (var task in viewModel.PinnedTasks)
+                                                {
+                                                    <div class="task-card">
+                                                        <div class="task-header">
+                                                            <span class="task-name">@task.Name</span>
+                                                            <button class="btn-icon" @onclick="() => UnpinTask(task)">
+                                                                <i class="fa-solid fa-thumbtack"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="task-footer">
+                                                            <span class="date">@task.CreatedDate.ToShortDateString()</span>
+                                                            <button class="btn-primary" @onclick="() => ViewTask(task)">View</button>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </Top>
+                            <Bottom>
+                                <div class="dashboard-card">
+                                    <div class="card-header">
+                                        <h2>What's Next?</h2>
+                                    </div>
+                                    <div class="card-body">
+                                        @if (!viewModel.WhatsNextTasks.Any())
+                                        {
+                                            <div class="empty-state">
+                                                <p>No tasks available</p>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="task-grid">
+                                                @foreach (var task in viewModel.WhatsNextTasks)
+                                                {
+                                                    <div class="task-card">
+                                                        <div class="task-header">
+                                                            <span class="task-name">@task.Name</span>
+                                                            <button class="btn-icon" @onclick="() => PinTask(task)">
+                                                                <i class="fa-regular fa-thumbtack"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="task-footer">
+                                                            <span class="date">@task.CreatedDate.ToShortDateString()</span>
+                                                            <button class="btn-primary" @onclick="() => ClaimTask(task)">Claim</button>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </Bottom>
+                        </TopBottomLayout>
+                    </Left>
+                    <Right>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h2>Updates</h2>
+                            </div>
+                            <div class="empty-state">
+                                <p>No updates available</p>
+                            </div>
+                        </div>
+                    </Right>
+                </LeftRightLayout>
+            }
+        </div>
+    </Body>
+</MainPageTemplate>
 
 @code {
-    private BlazorDashboardDemo.Shared.Models.UserDashboardViewModel? Dashboard;
+    private UserDashboardViewModel? viewModel;
     private bool isLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
-        // For demo, use a fixed userId
-        Dashboard = await DashboardService.GetDashboardAsync("demo-client", "demo-user");
-        isLoading = false;
+        try
+        {
+            isLoading = true;
+            viewModel = await DashboardService.GetDashboardDataAsync();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task ViewTask(TaskModel task)
+    {
+        // Implement view task logic
+    }
+
+    private async Task PinTask(TaskModel task)
+    {
+        task.IsPinned = true;
+        await DashboardService.UpdateTaskAsync(task);
+        StateHasChanged();
+    }
+
+    private async Task UnpinTask(TaskModel task)
+    {
+        task.IsPinned = false;
+        await DashboardService.UpdateTaskAsync(task);
+        StateHasChanged();
+    }
+
+    private async Task ClaimTask(TaskModel task)
+    {
+        task.AssignedUserId = viewModel?.CurrentUserId;
+        await DashboardService.UpdateTaskAsync(task);
+        StateHasChanged();
     }
 }

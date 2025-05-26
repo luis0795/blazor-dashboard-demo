@@ -1,0 +1,97 @@
+﻿.dashboard-card {
+    background: var(--white) 0% 0% no-repeat padding-box;
+    border-radius: 4px;
+    opacity: 1;
+    width: 100%;
+    height: 319px;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.dashboard-card-header {
+    padding: 23px 40px 0 40px;
+}
+
+.dashboard-card-body {
+    padding: 23px 40px 20px 40px;
+    max-width: calc(100% - 40px);
+    overflow: hidden;
+}
+
+.UpdateDashboard-card {
+    background: var(--white) 0% 0% no-repeat padding-box;
+    border-radius: 4px;
+    opacity: 1;
+    padding: 23px 40px;
+    width: 100%;
+    height: 100%;
+}
+
+.chevron-button {
+    height: 30px;
+    width: 30px;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: var(--hover-grey);
+}
+
+    .chevron-button:hover {
+        background-color: var(--darkgrey);
+    }
+
+.cardsubtitletext {
+    color: var(--sub-text-grey);
+    font-size: 12px;
+}
+
+.task-text {
+    font-size: 14px;
+}
+
+.color-grey {
+    color: var(--sub-text-grey);
+}
+
+.card-padding {
+    padding: 20px;
+}
+
+.user-dashboard-table-header-row {
+    display: grid;
+    grid-template-columns: auto 48px 175px 175px 175px 175px 90px;
+}
+
+.user-dashboard-table-row {
+    display: grid;
+    grid-template-columns: auto 48px 175px 175px 175px 175px 70px;
+}
+
+.user-dashboard-table table tbody tr td {
+    display: flex;
+}
+
+.user-dashboard-table-row .row-left-right-center {
+    flex: 1;
+}
+
+
+.user-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 20px;
+    row-gap: 20px;
+}
+
+::deep .user-icon {
+    margin-left: unset !important;
+}
+
+::deep .menu-item {
+    padding-left: 10.5px !important;
+}
+
+table tbody tr:first-child {
+    border-top: 1px solid var(--line-borders);
+}
