@@ -118,6 +118,10 @@
             isLoading = true;
             viewModel = await DashboardService.GetDashboardDataAsync();
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
         finally
         {
             isLoading = false;
