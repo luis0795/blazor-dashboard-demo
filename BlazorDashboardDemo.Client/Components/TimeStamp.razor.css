@@ -1,0 +1,14 @@
+﻿.timestamp-text {
+    font-size: 10px;
+    font-weight: var(--medium);
+    color: var(--sub-text-grey);
+    white-space: nowrap;
+}
+
+.timestamp-bg {
+    max-width: 72.5px;
+    height: 24px;
+    flex-grow: 0;
+    padding: 0 10px;
+    background-color: #eeeeee !important;
+}

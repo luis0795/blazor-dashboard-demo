@@ -15,6 +15,7 @@
         ScrollTop,
         ScrollBottom,
         Stack,
+        StackFillingContainer
     }
     [Parameter]
     public string? TopHeight { get; set; }
@@ -50,6 +51,7 @@
         LayoutMode.ExpandTop or LayoutMode.ScrollTop => "top-fill-bottom-auto",
         LayoutMode.ExpandBottom or LayoutMode.ScrollBottom => "top-auto-bottom-fill",
         LayoutMode.Stack => "top-auto-bottom-auto",
+        LayoutMode.StackFillingContainer => "top-fill-bottom-fill",
         _ => ""
     };
 

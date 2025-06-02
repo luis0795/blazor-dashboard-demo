@@ -3,109 +3,107 @@
 @using BlazorDashboardDemo.Shared.Services
 @inject IUserDashboardService DashboardService
 
-<MainPageTemplate>
-    <Body>
-        <div class="dashboard-container">
-            <div class="dashboard-header">
-                <h1>Dashboard</h1>
-            </div>
 
-            @if (isLoading)
-            {
-                <div class="loading-indicator">Loading...</div>
-            }
-            else if (viewModel is not null)
-            {
-                <LeftRightLayout LeftWidth="1fr" RightWidth="375px" Gap="25px">
-                    <Left>
-                        <TopBottomLayout Gap="18px" Mode="TopBottomLayout.LayoutMode.Stack">
-                            <Top>
-                                <div class="dashboard-card">
-                                    <div class="card-header">
-                                        <h2>Pinned Tasks (@viewModel.PinnedTasks.Count())</h2>
-                                    </div>
-                                    <div class="card-body">
-                                        @if (!viewModel.PinnedTasks.Any())
-                                        {
-                                            <div class="empty-state">
-                                                <p>Pin a task to make it appear here</p>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="task-grid">
-                                                @foreach (var task in viewModel.PinnedTasks)
-                                                {
-                                                    <div class="task-card">
-                                                        <div class="task-header">
-                                                            <span class="task-name">@task.Name</span>
-                                                            <button class="btn-icon" @onclick="() => UnpinTask(task)">
-                                                                <i class="fa-solid fa-thumbtack"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="task-footer">
-                                                            <span class="date">@task.CreatedDate.ToShortDateString()</span>
-                                                            <button class="btn-primary" @onclick="() => ViewTask(task)">View</button>
-                                                        </div>
-                                                    </div>
-                                                }
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </Top>
-                            <Bottom>
-                                <div class="dashboard-card">
-                                    <div class="card-header">
-                                        <h2>What's Next?</h2>
-                                    </div>
-                                    <div class="card-body">
-                                        @if (!viewModel.WhatsNextTasks.Any())
-                                        {
-                                            <div class="empty-state">
-                                                <p>No tasks available</p>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="task-grid">
-                                                @foreach (var task in viewModel.WhatsNextTasks)
-                                                {
-                                                    <div class="task-card">
-                                                        <div class="task-header">
-                                                            <span class="task-name">@task.Name</span>
-                                                            <button class="btn-icon" @onclick="() => PinTask(task)">
-                                                                <i class="fa-regular fa-thumbtack"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="task-footer">
-                                                            <span class="date">@task.CreatedDate.ToShortDateString()</span>
-                                                            <button class="btn-primary" @onclick="() => ClaimTask(task)">Claim</button>
-                                                        </div>
-                                                    </div>
-                                                }
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </Bottom>
-                        </TopBottomLayout>
-                    </Left>
-                    <Right>
-                        <div class="dashboard-card">
-                            <div class="card-header">
-                                <h2>Updates</h2>
-                            </div>
-                            <div class="empty-state">
-                                <p>No updates available</p>
-                            </div>
-                        </div>
-                    </Right>
-                </LeftRightLayout>
-            }
+<TopBottomLayout Mode="TopBottomLayout.LayoutMode.ExpandBottom">
+    <Top>
+        <div class="dashboard-header">
+            <h1>Dashboard</h1>
         </div>
-    </Body>
-</MainPageTemplate>
+    </Top>
+    <Bottom>
+        @if (isLoading)
+        {
+            <div class="loading-indicator">Loading...</div>
+        }
+        else if (viewModel is not null)
+        {
+            <LeftRightLayout LeftWidth="1fr" RightWidth="375px" Gap="25px">
+                <Left>
+                    <TopBottomLayout Gap="18px" Mode="TopBottomLayout.LayoutMode.StackFillingContainer" CssClass="h-100">
+                        <Top>
+                            <div class="dashboard-card">
+                                <div class="dashboard-card-header">
+                                    <h2>Pinned Tasks (@viewModel.PinnedTasks.Count())</h2>
+                                </div>
+                                <div class="dashboard-card-body ">
+                                    @if (!viewModel.PinnedTasks.Any())
+                                    {
+                                        <div class="empty-state">
+                                            <p>Pin a task to make it appear here</p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="task-grid">
+                                            @foreach (var task in viewModel.PinnedTasks)
+                                            {
+                                                <TaskCard Task="task" />
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </Top>
+                        <Bottom>
+                            <div class="dashboard-card">
+                                <div class="dashboard-card-header">
+                                    <h2>What's Next?</h2>
+                                </div>
+                                <div class="dashboard-card-body">
+                                    @if (!viewModel.WhatsNextTasks.Any())
+                                    {
+                                        <div class="empty-state">
+                                            <p>No tasks available</p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="task-grid">
+                                            @foreach (var task in viewModel.WhatsNextTasks)
+                                            {
+                                                <TaskCard Task="task" />
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </Bottom>
+                    </TopBottomLayout>
+                </Left>
+                <Right>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h2>Updates</h2>
+                        </div>
+                        <div class="dashboard-card-body">
+                            @if (!viewModel.WhatsNextTasks.Any())
+                            {
+                                <div class="empty-state">
+                                    <p>No updates available</p>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="task-grid">
+                                    @foreach (var task in viewModel.WhatsNextTasks)
+                                    {
+                                        <TaskCard Task="task" />
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                </Right>
+            </LeftRightLayout>
+        }
+
+
+    </Bottom>
+</TopBottomLayout>
+
+
+
 
 @code {
     private UserDashboardViewModel? viewModel;

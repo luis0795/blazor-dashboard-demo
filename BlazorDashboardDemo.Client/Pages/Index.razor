@@ -1,14 +1,9 @@
 ﻿@page "/"
-
-<PageTitle>Home</PageTitle>
-
-<h1>Hello, Blazor!</h1>
-
-<button class="btn btn-primary" @onclick="TestClick">Test Button</button>
+@inject NavigationManager Navigation
 
 @code {
-    private void TestClick()
+    protected override void OnInitialized()
     {
-        Console.WriteLine("Button clicked!");
+        Navigation.NavigateTo("/userdashboard");
     }
 }

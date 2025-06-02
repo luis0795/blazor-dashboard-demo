@@ -1,9 +1,10 @@
 html {
-    min-height: 100%;
+    min-height: 100% !important;
     display: grid;
 }
 
 body {
+    min-height: 100% !important;
     display: grid;
     margin: 0;
     -webkit-tap-highlight-color: transparent;
@@ -20,6 +21,7 @@ body {
 
 #app {
     display: grid;
+    min-height: 100% !important;
 }
 
 body, button, input, select, textarea {

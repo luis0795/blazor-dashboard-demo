@@ -10,4 +10,8 @@ public class TaskModel
     public bool IsPinned { get; set; }
     public string? WorkflowName { get; set; }
     public List<string> AssetNames { get; set; } = new();
+
+    // New WorkflowInstance property
+    public WorkflowInstanceModel? WorkflowInstance { get; set; }
+
 }

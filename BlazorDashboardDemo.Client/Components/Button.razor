@@ -1,0 +1,173 @@
+﻿
+@if (Visible)
+{
+    <button type="@Type" disabled="@Disabled" class="@GetButtonClasses()" @onclick="ButtonClicked" @onclick:stopPropagation="true" form="@Form" style="@GetButtonStyle()" test-id="@TestId" id="@Id">
+        @* This section of HTML is to display the Left-side content. *@
+        @if (!string.IsNullOrEmpty(IconCss))
+        {
+            <span class="@IconCss" />
+        }
+     
+        @* Display the text of the button is it is not empty. *@
+        @if (!string.IsNullOrEmpty(Text))
+        {
+            <span data-testid="btn-text" style="font-size:@FontSize;" class="btn-text">@Text</span>
+        }
+
+        @* This section of HTML is to display the Right-side content. *@
+        @if (ShowSpinner)
+        {
+            <span class="fa-duotone fa-regular fa-spinner fa-spin" />
+        }
+        else if (!string.IsNullOrEmpty(RightIconCss))
+        {
+            <span class="@RightIconCss" />
+        }
+    </button>
+}
+
+@code {
+    /// <summary>
+    /// The text to show in the button.
+    /// </summary>
+    [Parameter] public string? Text { get; set; }
+    /// <summary>
+    /// Should the button be disabled?
+    /// </summary>
+    [Parameter] public bool Disabled { get; set; }
+    /// <summary>
+    /// Should the button be shown? Saves you wrapping the button in an 'if' statement.
+    /// </summary>
+    [Parameter] public bool Visible { get; set; } = true;
+    /// <summary>
+    /// Set the width of the button if required. By default, it is set to 112px.
+    /// </summary>
+    [Parameter] public string? Width { get; set; } = "112px";
+    /// <summary>
+    /// Pass the component the height of the button if required. The default is 35px.
+    /// </summary>
+    [Parameter] public string? Height { get; set; } = "35px";
+    /// <summary>
+    /// Provide the intent of the button - this affects the appearance of the button.
+    /// </summary>
+    [Parameter, EditorRequired] public required ButtonIntent Intent { get; set; }
+    /// <summary>
+    /// Type of button ("button", "submit" or "reset"). Default is "button".
+    /// </summary>
+    [Parameter] public string? Type { get; set; } = "button";
+    /// <summary>
+    /// Which form (if any) does this button relate to?
+    /// </summary>
+    [Parameter] public string? Form { get; set; }
+    /// <summary>
+    /// Pass the it's font size. The default is 14px.
+    /// </summary>
+    [Parameter] public string? FontSize { get; set; }
+    /// <summary>
+    /// Pass the gap required between the Icon and the text. The default is 8px.
+    /// </summary>
+    [Parameter] public string? Gap { get; set; }
+    /// <summary>
+    /// Css class for the left-side icon here.
+    /// </summary>
+    [Parameter] public string? IconCss { get; set; }
+    /// <summary>
+    /// Css class for the right-side icon here.
+    /// </summary>
+    [Parameter] public string? RightIconCss { get; set; }
+    /// <summary>
+    /// Css class for the button.
+    /// </summary>
+    [Parameter] public string? CssClass { get; set; }
+
+    [Parameter] public EventCallback OnClick { get; set; }
+    [Parameter] public bool ShowSpinner { get; set; }
+    [Parameter] public bool UserIconRequired { get; set; }
+    [Parameter] public string? TestId { get; set; }
+    [Parameter] public string? Id { get; set; }
+
+    /// <summary>
+    /// Intent of button affects the appearance.
+    /// </summary>
+    public enum ButtonIntent
+    {
+        /// <summary>
+        /// Blue button with white text. Used as a "Confirm" or "Save" button.
+        /// </summary>
+        Primary,
+        /// <summary>
+        /// White button with dark text.
+        /// </summary>
+        Secondary,
+        /// <summary>
+        /// Grey button with dark text. Used as a "Cancel" button.
+        /// </summary>
+        Tertiary,
+        /// <summary>
+        /// Red button with white text. Used as a "Delete" button.
+        /// </summary>
+        Danger,
+        /// <summary>
+        /// White button with a blue-ish border and text.
+        /// </summary>
+        Quinary,
+        /// <summary>
+        /// Button with only Icon visible, no background.
+        /// </summary>
+        IconOnly,
+    }
+
+    private async Task ButtonClicked()
+    {
+        await OnClick.InvokeAsync();
+    }
+
+    private string GetButtonStyle()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Width))
+        {
+            styles.Add($"min-width: {Width};");
+            int intWidth = int.Parse(Width.Replace("px", ""));
+            if(intWidth > 80)
+            {
+                styles.Add($"padding: 0 20px;");
+            }
+        }
+        if (!string.IsNullOrEmpty(Height)) styles.Add($"height: {Height};");
+        if (!string.IsNullOrEmpty(Gap)) styles.Add($"gap: {Gap};");
+        return string.Join(" ", styles);
+    }
+
+    private bool HasIconCss()
+    {
+        if (!string.IsNullOrEmpty(IconCss) || !string.IsNullOrEmpty(RightIconCss))
+            return true;
+        else return false;
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (string.IsNullOrWhiteSpace(FontSize))
+        {
+            FontSize = "14px";
+        }
+
+        if(string.IsNullOrEmpty(Gap))
+        {
+            Gap = "8px";
+        }
+    }
+
+    private string GetButtonClasses()
+    {
+        var classes = new List<string>
+        {
+            $"btn-{Intent.ToString().ToLower()}",
+            HasIconCss() && !string.IsNullOrEmpty(Text) ? "button-icon-gap" : "",
+            !string.IsNullOrEmpty(RightIconCss) ? "btn-dropdown-padding" : "",
+        };
+
+        return string.Join(" ", classes.Where(c => !string.IsNullOrEmpty(c)));
+    }
+}

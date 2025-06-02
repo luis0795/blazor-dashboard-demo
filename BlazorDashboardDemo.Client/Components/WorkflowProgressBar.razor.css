@@ -1,0 +1,4 @@
+﻿.workflow-bar {
+    border: 1px solid var(--idle-text);
+    opacity: 1;
+}

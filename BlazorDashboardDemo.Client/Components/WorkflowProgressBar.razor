@@ -1,0 +1,48 @@
+﻿@using BlazorDashboardDemo.Shared.Models
+
+<div class="column row-gap-10px">
+    @if (ShowProgressBarTitle)
+    {
+        <div class="row-center bold column-gap-5px" style="font-size: @FontSize;">
+            <span class="workflow-title">@WorkflowTitle</span>
+            <i class="fa-solid fa-circle font-2"></i>
+            @switch (Status)
+            {
+                case WorkflowInstanceState.InProgress:
+                    <span class="bold">@CompletedWorkflowSteps/@TotalWorkflowSteps</span>
+                    break;
+                case WorkflowInstanceState.Abandoned:
+                    <span class="bold">Abandoned</span>
+                    break;
+                case WorkflowInstanceState.Completed:
+                    <span class="bold">Complete</span>
+                    break;
+                default:
+                    <span class="bold">Waiting</span>
+                    break;
+            }
+        </div>
+    }
+    <div class="workflow-bar"
+         style="background-image: linear-gradient(to right, var(--purple) 0% @PercentageCompletion%, var(--light-blue) @PercentageCompletion%);
+                width: @Width;
+                height: @Height;
+                border-radius: @BorderRadius" />
+</div>
+
+@code {
+    [Parameter] public WorkflowInstanceState? Status { get; set; }
+    [Parameter] public int CompletedWorkflowSteps { get; set; }
+    [Parameter] public int TotalWorkflowSteps { get; set; }
+    [Parameter] public string? Width { get; set; } = "100%";
+    [Parameter] public string? Height { get; set; } = "8px";
+    [Parameter] public string? BorderRadius { get; set; } = "4px";
+    [Parameter] public bool ShowProgressBarTitle { get; set; }
+    [Parameter] public string? WorkflowTitle { get; set; }
+    [Parameter] public string FontSize { get; set; } = "12px";
+
+    private int PercentageCompletion =>
+        TotalWorkflowSteps > 0
+            ? (int)Math.Round((double)CompletedWorkflowSteps / TotalWorkflowSteps * 100)
+            : 0;
+}

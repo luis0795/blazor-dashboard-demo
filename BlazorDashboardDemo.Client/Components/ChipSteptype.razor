@@ -1,0 +1,18 @@
+﻿@using BlazorDashboardDemo.Shared.Models
+<div class="chip-steptype center-flex @GetChipClass()">
+    <span class="chip-text font-10">@StepType</span>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public StepType StepType { get; set; }
+
+    private string GetChipClass() => StepType switch
+    {
+        StepType.Approval => "chip-approval",
+        StepType.Review => "chip-review",
+        StepType.Execution => "chip-execution",
+        StepType.Notification => "chip-notification",
+        _ => "chip-custom"
+    };
+}

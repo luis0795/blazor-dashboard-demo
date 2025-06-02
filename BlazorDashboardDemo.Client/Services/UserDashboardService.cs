@@ -11,27 +11,55 @@ public class UserDashboardService : IUserDashboardService
     public UserDashboardService()
     {
         _tasks = new List<TaskModel>
+{
+    new()
+    {
+        Id = "1",
+        Name = "Review Project Documentation",
+        CreatedDate = DateTime.Now.AddDays(-1),
+        ProjectName = "Demo Project",
+        IsPinned = true,
+        WorkflowName = "Documentation",
+        AssetNames = new List<string> { "Document A" },
+        WorkflowInstance = new WorkflowInstanceModel
         {
-            new()
+            Name = "Documentation Workflow",
+            StepsCompleted = 2,
+            StepsTotal = 5,
+            State = WorkflowInstanceState.InProgress,
+            Steps = new List<WorkflowStepModel>
             {
-                Id = "1",
-                Name = "Review Project Documentation",
-                CreatedDate = DateTime.Now.AddDays(-1),
-                ProjectName = "Demo Project",
-                IsPinned = true,
-                WorkflowName = "Documentation",
-                AssetNames = new List<string> { "Document A" }
-            },
-            new()
-            {
-                Id = "2",
-                Name = "Update Dashboard Features",
-                CreatedDate = DateTime.Now.AddDays(-2),
-                ProjectName = "Demo Project",
-                WorkflowName = "Development",
-                AssetNames = new List<string> { "Dashboard Component" }
+                new() { Name = "Initial Review", Type = StepType.Review, IsCompleted = true },
+                new() { Name = "Approval", Type = StepType.Approval, IsCompleted = true },
+                new() { Name = "Final Review", Type = StepType.Review, IsCompleted = false },
+                new() { Name = "Execution", Type = StepType.Execution, IsCompleted = false },
+                new() { Name = "Notification", Type = StepType.Notification, IsCompleted = false }
             }
-        };
+        }
+    },
+    new()
+    {
+        Id = "2",
+        Name = "Update Dashboard Features",
+        CreatedDate = DateTime.Now.AddDays(-2),
+        ProjectName = "Demo Project",
+        WorkflowName = "Development",
+        AssetNames = new List<string> { "Dashboard Component" },
+        WorkflowInstance = new WorkflowInstanceModel
+        {
+            Name = "Development Workflow",
+            StepsCompleted = 3,
+            StepsTotal = 3,
+            State = WorkflowInstanceState.Completed,
+            Steps = new List<WorkflowStepModel>
+            {
+                new() { Name = "Feature Design", Type = StepType.Execution, IsCompleted = true },
+                new() { Name = "Code Implementation", Type = StepType.Execution, IsCompleted = true },
+                new() { Name = "Testing", Type = StepType.Review, IsCompleted = true }
+            }
+        }
+    }
+};
     }
 
     public async Task<UserDashboardViewModel> GetDashboardDataAsync()

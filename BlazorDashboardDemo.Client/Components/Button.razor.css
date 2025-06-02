@@ -1,0 +1,112 @@
+﻿button {
+    cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 0 10px;
+    border: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.btn-dropdown-padding {
+    padding: 0 0 0 20px;
+}
+
+.btn-dropdown-user-padding {
+    padding: 0 0 0 10px;
+}
+
+.btn-primary {
+    background: var(--blue);
+    color: #FFFFFF;
+}
+
+    .btn-primary:hover {
+        background: var(--darkblue);
+    }
+
+.btn-secondary {
+    background: var(--white);
+    color: var(--dark);
+    border: 1px solid var(--grey);
+}
+
+    .btn-secondary:hover {
+        background: var(--grey);
+        border: 1px solid #00121B;
+    }
+
+.btn-tertiary {
+    background: var(--grey);
+    color: var(--dark);
+    font-weight: var(--medium);
+}
+
+    .btn-tertiary:hover {
+        background: var(--darkgrey);
+    }
+
+.btn-danger {
+    background: var(--red);
+    color: var(--white);
+    font-weight: var(--medium);
+}
+
+    .btn-danger:hover {
+        background: var(--darkred);
+        color: var(--white);
+    }
+
+.btn-quinary {
+    background: var(--white);
+    color: var(--dark);
+    font-weight: var(--medium);
+    border: 1px solid var(--grey);
+}
+
+    .btn-quinary:hover {
+        background-color: var(--grey);
+        border: unset !important;
+    }
+
+.btn-icononly {
+    background: transparent;
+    border: unset;
+    color: var(--dark);
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+    .btn-icononly:hover {
+        background: var(--grey);
+    }
+
+    .btn-icononly .btn-text {
+        display: none !important;
+    }
+
+.right-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*disabled button*/
+button:disabled,
+button[disabled] {
+    cursor: unset !important;
+    opacity: 0.5;
+    user-select: none;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.active-grey-button {
+    background: var(--grey);
+}

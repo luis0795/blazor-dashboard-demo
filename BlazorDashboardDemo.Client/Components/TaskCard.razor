@@ -1,0 +1,46 @@
+﻿@using BlazorDashboardDemo.Shared.Models
+<div class="taskcard-container">
+
+@if (Task.IsPinned)
+{
+    <div class="pinned-icon">
+            <span class="fa-solid fa-thumbtack font-12" />
+    </div>
+}
+<div class="task-card">
+    <div class="taskcard-header card-padding-top">
+        @if (Task.WorkflowInstance?.FirstStepType is not null)
+        {
+            <ChipSteptype StepType="@Task.WorkflowInstance.FirstStepType.Value" />
+        }
+        <TimeStamp RequireBackground="true" DisplayAsDate="true" Date="Task.CreatedDate"></TimeStamp>
+    </div>
+        <div class="taskcard-body card-padding-body">
+            <div class="column row-gap-15px">
+                <div class="column row-gap-10px">
+                    <h4 class="text-overflow">@Task.Name</h4>
+                <span class="font-12 client-subtitle text-overflow">Project / Resource / Workflow</span>
+                </div>
+                <div>
+                @if (Task.WorkflowInstance is not null)
+                {
+                    <WorkflowProgressBar CompletedWorkflowSteps="@Task.WorkflowInstance.StepsCompleted"
+                                         TotalWorkflowSteps="@Task.WorkflowInstance.StepsTotal"
+                                         WorkflowTitle="@Task.WorkflowInstance.Name"
+                                         ShowProgressBarTitle="true"
+                                         Status="@Task.WorkflowInstance.State" />
+                }
+                </div>
+            </div>
+        </div>
+    <div class="taskcard-footer card-padding-bottom">
+        <Button Intent="Button.ButtonIntent.Quinary" Text="View Task"  FontSize="12px" Width="100px" />
+    </div>
+</div>
+</div>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public TaskModel Task { get; set; } = default!;
+}
