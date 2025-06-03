@@ -9,19 +9,25 @@
 		<OutputType>Exe</OutputType>
 		<EnableDefaultScopedCssItems>true</EnableDefaultScopedCssItems>
 		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
-		<StaticWebAssetBasePath>Client</StaticWebAssetBasePath>
+		<PreserveTimestamps>true</PreserveTimestamps>
 	</PropertyGroup>
+
+	<!-- Static content configuration -->
 	<ItemGroup>
-		<Content Update="wwwroot\css\**\*.*">
+		<Content Update="wwwroot\**\*.*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
 	</ItemGroup>
+
+	<!-- NuGet package references -->
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.4" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.4"/>
 	</ItemGroup>
+
+	<!-- Project references -->
 	<ItemGroup>
 		<ProjectReference Include="..\BlazorDashboardDemo.Shared\BlazorDashboardDemo.Shared.csproj" />
 	</ItemGroup>
-	
 </Project>

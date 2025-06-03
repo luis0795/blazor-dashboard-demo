@@ -28,9 +28,8 @@
                                 <div class="dashboard-card-body ">
                                     @if (!viewModel.PinnedTasks.Any())
                                     {
-                                        <div class="empty-state">
-                                            <p>Pin a task to make it appear here</p>
-                                        </div>
+                                        <EmptyState Title="No Tasks Available"
+                                                    Message="Pin a task to make it appear here" />
                                     }
                                     else
                                     {
@@ -52,9 +51,7 @@
                                 <div class="dashboard-card-body">
                                     @if (!viewModel.WhatsNextTasks.Any())
                                     {
-                                        <div class="empty-state">
-                                            <p>No tasks available</p>
-                                        </div>
+                                        <EmptyState Title="No Tasks Available"/>
                                     }
                                     else
                                     {
@@ -78,9 +75,8 @@
                         <div class="column">
                             @if (!viewModel.WhatsNextTasks.Any())
                             {
-                                <div class="empty-state">
-                                    <p>No updates available</p>
-                                </div>
+                                <EmptyState Title="No updates Available"
+                                            Message="There are no updates to display at this time." />
                             }
                             else
                             {
