@@ -1,0 +1,23 @@
+﻿<div class="stack-layout @CssClass" style="@Style">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? CssClass { get; set; }
+
+    [Parameter]
+    public string? Gap { get; set; }
+
+    private string? Style => !string.IsNullOrEmpty(Gap) ? $"gap: {Gap}" : null;
+}
+
+<style>
+    .stack-layout {
+        display: flex;
+        flex-direction: column;
+    }
+</style>

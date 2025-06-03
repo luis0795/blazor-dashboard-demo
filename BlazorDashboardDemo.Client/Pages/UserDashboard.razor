@@ -19,53 +19,51 @@
         {
             <LeftRightLayout LeftWidth="1fr" RightWidth="375px" Gap="25px">
                 <Left>
-                    <TopBottomLayout Gap="18px" Mode="TopBottomLayout.LayoutMode.Stack" CssClass="h-100">
-                        <Top>
-                            <div class="dashboard-card">
-                                <div class="dashboard-card-header">
-                                    <h2>Pinned Tasks (@viewModel.PinnedTasks.Count())</h2>
-                                </div>
-                                <div class="dashboard-card-body ">
-                                    @if (!viewModel.PinnedTasks.Any())
-                                    {
-                                        <EmptyState Title="No Tasks Available"
-                                                    Message="Pin a task to make it appear here" />
-                                    }
-                                    else
-                                    {
-                                        <div class="dashboard-card-items row column-gap-25px">
-                                            @foreach (var task in viewModel.PinnedTasks)
-                                            {
-                                                <TaskCard Task="task" OnViewTaskClicked="() => OpenTaskDialog(task)" />
-                                            }
-                                        </div>
-                                    }
-                                </div>
+                    <StackLayout Gap="18px" CssClass="h-100">
+
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-header">
+                                <h2>Pinned Tasks (@viewModel.PinnedTasks.Count())</h2>
                             </div>
-                        </Top>
-                        <Bottom>
-                            <div class="dashboard-card">
-                                <div class="dashboard-card-header">
-                                    <h2>What's Next?</h2>
-                                </div>
-                                <div class="dashboard-card-body">
-                                    @if (!viewModel.WhatsNextTasks.Any())
-                                    {
-                                        <EmptyState Title="No Tasks Available"/>
-                                    }
-                                    else
-                                    {
-                                        <div class="dashboard-card-items row column-gap-25px">
-                                            @foreach (var task in viewModel.WhatsNextTasks)
-                                            {
-                                                <TaskCard Task="task" OnViewTaskClicked="() => OpenTaskDialog(task)" />
-                                            }
-                                        </div>
-                                    }
-                                </div>
+                            <div class="dashboard-card-body ">
+                                @if (!viewModel.PinnedTasks.Any())
+                                {
+                                    <EmptyState Title="No Tasks Available"
+                                                Message="Pin a task to make it appear here" />
+                                }
+                                else
+                                {
+                                    <div class="dashboard-card-items row column-gap-25px">
+                                        @foreach (var task in viewModel.PinnedTasks)
+                                        {
+                                            <TaskCard Task="task" OnViewTaskClicked="() => OpenTaskDialog(task)" />
+                                        }
+                                    </div>
+                                }
                             </div>
-                        </Bottom>
-                    </TopBottomLayout>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-header">
+                                <h2>What's Next?</h2>
+                            </div>
+                            <div class="dashboard-card-body">
+                                @if (!viewModel.WhatsNextTasks.Any())
+                                {
+                                    <EmptyState Title="No Tasks Available" />
+                                }
+                                else
+                                {
+                                    <div class="dashboard-card-items row column-gap-25px">
+                                        @foreach (var task in viewModel.WhatsNextTasks)
+                                        {
+                                            <TaskCard Task="task" OnViewTaskClicked="() => OpenTaskDialog(task)" />
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </StackLayout>
                 </Left>
                 <Right>
                     <div class="column UpdateDashboard-card">
@@ -75,6 +73,7 @@
                         <div class="column">
                             @if (!viewModel.WhatsNextTasks.Any())
                             {
+
                                 <EmptyState Title="No updates Available"
                                             Message="There are no updates to display at this time." />
                             }
