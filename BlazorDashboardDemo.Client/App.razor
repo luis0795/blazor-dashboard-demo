@@ -1,4 +1,5 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿<HeadOutlet />
+<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainPageTemplate)" />
     </Found>
@@ -9,4 +10,3 @@
         </LayoutView>
     </NotFound>
 </Router>
-<HeadOutlet />

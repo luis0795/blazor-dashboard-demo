@@ -9,6 +9,7 @@
 		<OutputType>Exe</OutputType>
 		<EnableDefaultScopedCssItems>true</EnableDefaultScopedCssItems>
 		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+		<StaticWebAssetBasePath>Client</StaticWebAssetBasePath>
 	</PropertyGroup>
 	<ItemGroup>
 		<Content Update="wwwroot\css\**\*.*">
