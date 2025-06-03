@@ -1,0 +1,78 @@
+﻿@using BlazorDashboardDemo.Shared.Models
+
+@if (TaskModel is not null)
+{
+    <div class="modal-panel">
+        <div class="task-summary-dialog-header">
+            <span class="dialog-header-text text-overflow">@TaskModel.Name</span>
+            <div class="row column-gap-20px align-middle">
+                <Button IconCss="fa-solid fa-thumbtack fa-lg"
+                        Intent="Button.ButtonIntent.IconOnly"
+                        CssClass="@GetPinButtonClass()"
+                        OnClick="@TogglePinTask"
+                        Width="30px"
+                        Height="30px" />
+            </div>
+        </div>
+        <div class="task-summary-dialog-body">
+        <div class="column row-gap-30px">
+
+            <div class="row align-middle">
+                <div class="row column-gap-15px align-middle task-property-title">
+                    <span class="fa-solid fa-folder icon-width" />
+                    <h4>Project</h4>
+                </div>
+                <span class="font-12 medium">@TaskModel.ProjectName</span>
+            </div>
+            <div class="row align-middle">
+                <div class="row column-gap-15px align-middle task-property-title">
+                        <span class="fa-solid fa-bars-progress icon-width" />                    <h4>Workflow</h4>
+                </div>               
+                <div class="font-12 medium">
+                    @(TaskModel.WorkflowInstance?.StepsCompleted ?? 0) /
+                    @(TaskModel.WorkflowInstance?.StepsTotal ?? 0)
+                </div>
+            </div>
+            <div class="row align-middle">
+                <div class="row column-gap-15px align-middle task-property-title">
+                    <span class="fa-solid fa-calendar icon-width" />
+                    <h4>Date Added</h4>
+                </div>                
+                <span class="font-12 medium">@TaskModel.CreatedDate.ToString("dd MMM, yyyy")</span>
+            </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter, EditorRequired] public TaskModel? TaskModel { get; set; }
+
+    [Parameter, EditorRequired] public EventCallback OnPinTaskClicked { get; set; }
+    [Parameter, EditorRequired] public EventCallback OnUnPinTaskClicked { get; set; }
+
+    private string GetPinButtonClass()
+    {
+        if (TaskModel == null)
+            return "pinned-icon-grey";
+
+        return TaskModel.IsPinned ? "pinned-icon-blue" : "pinned-icon-grey";
+    }
+
+    private async Task TogglePinTask()
+    {
+        if (TaskModel == null)
+            return;
+
+        if (TaskModel.IsPinned)
+        {
+            await OnUnPinTaskClicked.InvokeAsync();
+        }
+        else
+        {
+            await OnPinTaskClicked.InvokeAsync();
+        }
+
+        StateHasChanged();
+    }
+}

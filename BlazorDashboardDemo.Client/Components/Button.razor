@@ -162,11 +162,16 @@
     private string GetButtonClasses()
     {
         var classes = new List<string>
+    {
+        $"btn-{Intent.ToString().ToLower()}",
+        HasIconCss() && !string.IsNullOrEmpty(Text) ? "button-icon-gap" : "",
+        !string.IsNullOrEmpty(RightIconCss) ? "btn-dropdown-padding" : ""
+    };
+
+        if (!string.IsNullOrEmpty(CssClass))
         {
-            $"btn-{Intent.ToString().ToLower()}",
-            HasIconCss() && !string.IsNullOrEmpty(Text) ? "button-icon-gap" : "",
-            !string.IsNullOrEmpty(RightIconCss) ? "btn-dropdown-padding" : "",
-        };
+            classes.Add(CssClass);
+        }
 
         return string.Join(" ", classes.Where(c => !string.IsNullOrEmpty(c)));
     }

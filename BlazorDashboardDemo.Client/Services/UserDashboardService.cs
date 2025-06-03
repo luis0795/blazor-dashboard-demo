@@ -1,7 +1,6 @@
 ﻿using BlazorDashboardDemo.Shared.Models;
 using BlazorDashboardDemo.Shared.Services;
-
-namespace BlazorDashboardDemo.Client.Services;
+using System;
 
 public class UserDashboardService : IUserDashboardService
 {
@@ -10,56 +9,60 @@ public class UserDashboardService : IUserDashboardService
 
     public UserDashboardService()
     {
-        _tasks = new List<TaskModel>
-{
-    new()
-    {
-        Id = "1",
-        Name = "Review Project Documentation",
-        CreatedDate = DateTime.Now.AddDays(-1),
-        ProjectName = "Demo Project",
-        IsPinned = true,
-        WorkflowName = "Documentation",
-        AssetNames = new List<string> { "Document A" },
-        WorkflowInstance = new WorkflowInstanceModel
-        {
-            Name = "Documentation Workflow",
-            StepsCompleted = 2,
-            StepsTotal = 5,
-            State = WorkflowInstanceState.InProgress,
-            Steps = new List<WorkflowStepModel>
-            {
-                new() { Name = "Initial Review", Type = StepType.Review, IsCompleted = true },
-                new() { Name = "Approval", Type = StepType.Approval, IsCompleted = true },
-                new() { Name = "Final Review", Type = StepType.Review, IsCompleted = false },
-                new() { Name = "Execution", Type = StepType.Execution, IsCompleted = false },
-                new() { Name = "Notification", Type = StepType.Notification, IsCompleted = false }
-            }
-        }
-    },
-    new()
-    {
-        Id = "2",
-        Name = "Update Dashboard Features",
-        CreatedDate = DateTime.Now.AddDays(-2),
-        ProjectName = "Demo Project",
-        WorkflowName = "Development",
-        AssetNames = new List<string> { "Dashboard Component" },
-        WorkflowInstance = new WorkflowInstanceModel
-        {
-            Name = "Development Workflow",
-            StepsCompleted = 3,
-            StepsTotal = 3,
-            State = WorkflowInstanceState.Completed,
-            Steps = new List<WorkflowStepModel>
-            {
-                new() { Name = "Feature Design", Type = StepType.Execution, IsCompleted = true },
-                new() { Name = "Code Implementation", Type = StepType.Execution, IsCompleted = true },
-                new() { Name = "Testing", Type = StepType.Review, IsCompleted = true }
-            }
-        }
+        _tasks = GenerateSampleTasks(10); // Generate 10 sample tasks
     }
-};
+
+    private List<TaskModel> GenerateSampleTasks(int count)
+    {
+        var random = new Random();
+        var sampleTasks = new List<TaskModel>();
+
+        for (int i = 1; i <= count; i++)
+        {
+            var taskId = i.ToString();
+            var isPinned = random.Next(0, 2) == 1; // Randomly pin some tasks
+            var stepsCompleted = random.Next(0, 5);
+            var stepsTotal = random.Next(stepsCompleted, 6); // Ensure stepsCompleted <= stepsTotal
+
+            sampleTasks.Add(new TaskModel
+            {
+                Id = taskId,
+                Name = $"Task {taskId}",
+                CreatedDate = DateTime.Now.AddDays(-random.Next(1, 30)), // Random date in the past 30 days
+                ProjectName = $"Project {random.Next(1, 5)}", // Random project name
+                IsPinned = isPinned,
+                WorkflowName = $"Workflow {random.Next(1, 3)}",
+                AssetNames = new List<string> { $"Asset {random.Next(1, 10)}" },
+                WorkflowInstance = new WorkflowInstanceModel
+                {
+                    Name = $"Workflow {taskId}",
+                    StepsCompleted = stepsCompleted,
+                    StepsTotal = stepsTotal,
+                    State = stepsCompleted == stepsTotal
+                        ? WorkflowInstanceState.Completed
+                        : WorkflowInstanceState.InProgress,
+                    Steps = GenerateSampleSteps(stepsTotal, stepsCompleted)
+                }
+            });
+        }
+
+        return sampleTasks;
+    }
+
+    private List<WorkflowStepModel> GenerateSampleSteps(int totalSteps, int completedSteps)
+    {
+        var steps = new List<WorkflowStepModel>();
+        var stepTypes = Enum.GetValues<StepType>();
+        for (int i = 0; i < totalSteps; i++)
+        {
+            steps.Add(new WorkflowStepModel
+            {
+                Name = $"Step {i + 1}",
+                Type = stepTypes[i % stepTypes.Length], // Cycle through StepType enum values
+                IsCompleted = i < completedSteps
+            });
+        }
+        return steps;
     }
 
     public async Task<UserDashboardViewModel> GetDashboardDataAsync()
@@ -81,8 +84,10 @@ public class UserDashboardService : IUserDashboardService
             existingTask.ProjectName = task.ProjectName;
             existingTask.AssignedUserId = task.AssignedUserId;
             existingTask.IsPinned = task.IsPinned;
+            await Task.CompletedTask; // Explicitly mark as asynchronous
             return true;
         }
+        await Task.CompletedTask; // Explicitly mark as asynchronous
         return false;
     }
 
@@ -92,8 +97,10 @@ public class UserDashboardService : IUserDashboardService
         if (task != null)
         {
             task.IsPinned = isPinned;
+            await Task.CompletedTask; // Explicitly mark as asynchronous
             return true;
         }
+        await Task.CompletedTask; // Explicitly mark as asynchronous
         return false;
     }
 
@@ -103,8 +110,10 @@ public class UserDashboardService : IUserDashboardService
         if (task != null)
         {
             task.AssignedUserId = _currentUserId;
+            await Task.CompletedTask; // Explicitly mark as asynchronous
             return true;
         }
+        await Task.CompletedTask; // Explicitly mark as asynchronous
         return false;
     }
 }

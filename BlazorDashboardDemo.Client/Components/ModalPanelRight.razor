@@ -1,0 +1,26 @@
+﻿<div class="overlay" @onclick="HandleOnClickOutsideModal">
+</div>
+<div role="dialog" class="right-panel overflow-y" style="@(PanelStyle) width: @Width;">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Gap { get; set; }
+
+    [Parameter]
+    public EventCallback OnClickOutsideModel { get; set; }
+
+    [Parameter]
+    public string? Width { get; set; }
+
+    private string? PanelStyle => Gap != null ? $"top: {Gap}; right: {Gap}; bottom: {Gap};" : null;
+
+    async Task HandleOnClickOutsideModal()
+    {
+        await OnClickOutsideModel.InvokeAsync();
+    }
+}

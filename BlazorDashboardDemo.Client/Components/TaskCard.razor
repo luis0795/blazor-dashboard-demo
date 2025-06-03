@@ -34,8 +34,12 @@
             </div>
         </div>
     <div class="taskcard-footer card-padding-bottom">
-        <Button Intent="Button.ButtonIntent.Quinary" Text="View Task"  FontSize="12px" Width="100px" />
-    </div>
+            <Button Intent="Button.ButtonIntent.Quinary"
+                    Text="View Task"
+                    FontSize="12px"
+                    Width="100px"
+                    OnClick="HandleButtonClick" />
+        </div>
 </div>
 </div>
 
@@ -43,4 +47,13 @@
 {
     [Parameter, EditorRequired]
     public TaskModel Task { get; set; } = default!;
+    [Parameter] public required EventCallback OnViewTaskClicked { get; set; }
+
+    private async Task HandleButtonClick()
+    {
+        if (OnViewTaskClicked.HasDelegate)
+        {
+            await OnViewTaskClicked.InvokeAsync();
+        }
+    }
 }

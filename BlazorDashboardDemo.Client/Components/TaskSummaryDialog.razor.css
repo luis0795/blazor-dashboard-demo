@@ -1,0 +1,185 @@
+﻿.modal-panel {
+    width: 805px;
+}
+
+.task-summary-dialog-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 40px 40px 20px 40px;
+    align-items: center;
+}
+
+.task-summary-dialog-body{
+    padding: 40px 40px 20px 40px;
+}
+
+.dialog-header-text {
+    font-size: 24px;
+    font-weight: var(--medium);
+    line-height: normal;
+}
+
+.fa-arrow-up-right-from-square {
+    color: var(--grey3);
+}
+
+::deep .btn-icononly.pinned-icon-blue {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+    color: var(--white);
+    background: var(--blue) 0% 0% no-repeat padding-box;
+    border-radius: 50%;
+}
+
+    ::deep .btn-icononly.pinned-icon-blue:hover {
+        background: var(--darkblue) !important;
+    }
+
+::deep .btn-icononly.pinned-icon-grey {
+    width: 30px;
+    height: 30px;
+    background: var(--white) 0% 0% no-repeat padding-box;
+    opacity: 1;
+    border-radius: 50%;
+    color: var(--sub-text-grey);
+}
+
+    ::deep .btn-icononly.pinned-icon-grey:hover {
+        width: 30px;
+        height: 30px;
+        background: var(--grey) 0% 0% no-repeat padding-box;
+        opacity: 1;
+        border-radius: 50%;
+        color: var(--sub-text-grey);
+    }
+
+.task-property-title {
+    width: 30%;
+}
+
+.description-padding {
+    padding: 13px 17px;
+}
+
+.comments-area {
+    height: 147px;
+    width: 100%;
+    padding: 12px;
+    background: var(--user-chip-grey) 0% 0% no-repeat padding-box;
+    border-radius: 4px;
+    opacity: 1;
+    position: relative;
+}
+
+.new-comment-textarea {
+    background-color: inherit;
+    border: none;
+    resize: none;
+    height: 80px;
+}
+
+    .new-comment-textarea:focus-visible {
+        outline: none;
+    }
+
+.absolute-button {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+}
+
+.icon-width {
+    width: 15px;
+}
+
+.file-image {
+    height: 35px;
+    width: 35px;
+}
+
+/* Input Container */
+.upload-link {
+    width: 100%;
+    height: 39px;
+    flex-grow: 0;
+    padding: 0 12px;
+    border: solid 1px var(--lightgrey);
+}
+
+    .upload-link input[type=text]:focus,
+    .upload-link input[type=text]:focus-visible {
+        outline: none;
+        border-bottom: 1px solid var(--blue);
+    }
+
+    /* Placeholder */
+    .upload-link input::placeholder {
+        color: var(--idle-text);
+        opacity: 1; /* Firefox */
+        font-weight: var(--medium);
+    }
+
+    .upload-link input::-ms-input-placeholder { /* Edge 12 -18 */
+        color: var(--idle-text);
+        font-weight: var(--medium);
+    }
+
+.upload-requirements {
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 0;
+}
+
+.upload-instruction {
+    width: 161px;
+    height: 17px;
+    flex-grow: 0;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: var(--assure-black);
+}
+
+input.checkbox-round {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+    input.checkbox-round::after {
+        content: "\f111"; /* FontAwesome circle */
+        font-family: "Font Awesome 6 Pro";
+        color: var(--sub-text-grey);
+        font-size: 18px;
+        font-weight: 300;
+    }
+
+    input.checkbox-round:checked::after {
+        content: "\f058"; /* FontAwesome check icon */
+        font-family: "Font Awesome 6 Pro";
+        font-weight: 900;
+        font-size: 18px;
+        color: var(--blue);
+        background-color: unset;
+    }
+
+span.review-step {
+    border-bottom: 2px solid var(--grey);
+    font-size: 12px;
+}

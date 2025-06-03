@@ -1,0 +1,47 @@
+﻿@using BlazorDashboardDemo.Shared.Models
+
+<div class="task-update-card @GetUpdateClass()">
+    <div class="task-update-header">
+        <i class="@GetUpdateIcon()"></i>
+        <span class="update-title">@UpdateType - <strong>@Title</strong></span>
+    </div>
+    <div class="task-update-body">
+        <p>@Description</p>
+    </div>
+    <div class="task-update-footer">
+        <span>@UserName</span> • <span>@Date.ToString("dd MMM, yy")</span>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public string UpdateType { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string Description { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string UserName { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public DateTime Date { get; set; }
+
+    private string GetUpdateClass() => UpdateType switch
+    {
+        "Step Reactivation" => "update-step-reactivation",
+        "Rejection" => "update-rejection",
+        "Nudge" => "update-nudge",
+        _ => "update-default"
+    };
+
+    private string GetUpdateIcon() => UpdateType switch
+    {
+        "Step Reactivation" => "fa-solid fa-leaf",
+        "Rejection" => "fa-solid fa-times-circle",
+        "Nudge" => "fa-solid fa-lightbulb",
+        _ => "fa-solid fa-info-circle"
+    };
+}

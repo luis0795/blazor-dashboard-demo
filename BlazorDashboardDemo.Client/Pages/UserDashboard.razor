@@ -4,7 +4,7 @@
 @inject IUserDashboardService DashboardService
 
 
-<TopBottomLayout Mode="TopBottomLayout.LayoutMode.ExpandBottom">
+<TopBottomLayout Mode="TopBottomLayout.LayoutMode.ScrollBottom">
     <Top>
         <div class="dashboard-header">
             <h1>Dashboard</h1>
@@ -19,7 +19,7 @@
         {
             <LeftRightLayout LeftWidth="1fr" RightWidth="375px" Gap="25px">
                 <Left>
-                    <TopBottomLayout Gap="18px" Mode="TopBottomLayout.LayoutMode.StackFillingContainer" CssClass="h-100">
+                    <TopBottomLayout Gap="18px" Mode="TopBottomLayout.LayoutMode.Stack" CssClass="h-100">
                         <Top>
                             <div class="dashboard-card">
                                 <div class="dashboard-card-header">
@@ -34,10 +34,10 @@
                                     }
                                     else
                                     {
-                                        <div class="task-grid">
+                                        <div class="dashboard-card-items row column-gap-25px">
                                             @foreach (var task in viewModel.PinnedTasks)
                                             {
-                                                <TaskCard Task="task" />
+                                                <TaskCard Task="task" OnViewTaskClicked="() => OpenTaskDialog(task)" />
                                             }
                                         </div>
                                     }
@@ -58,10 +58,10 @@
                                     }
                                     else
                                     {
-                                        <div class="task-grid">
+                                        <div class="dashboard-card-items row column-gap-25px">
                                             @foreach (var task in viewModel.WhatsNextTasks)
                                             {
-                                                <TaskCard Task="task" />
+                                                <TaskCard Task="task" OnViewTaskClicked="() => OpenTaskDialog(task)" />
                                             }
                                         </div>
                                     }
@@ -71,11 +71,11 @@
                     </TopBottomLayout>
                 </Left>
                 <Right>
-                    <div class="dashboard-card">
-                        <div class="dashboard-card-header">
+                    <div class="column UpdateDashboard-card">
+                        <div class="row align-middle gap-20px">
                             <h2>Updates</h2>
                         </div>
-                        <div class="dashboard-card-body">
+                        <div class="column">
                             @if (!viewModel.WhatsNextTasks.Any())
                             {
                                 <div class="empty-state">
@@ -84,12 +84,16 @@
                             }
                             else
                             {
-                                <div class="task-grid">
-                                    @foreach (var task in viewModel.WhatsNextTasks)
-                                    {
-                                        <TaskCard Task="task" />
-                                    }
-                                </div>
+                                @foreach (var task in viewModel.WhatsNextTasks)
+                                {
+                                    var description = $"The task for {task.ProjectName} has been successfully completed, though it came with a few challenges along the way.";
+
+                                    <TaskUpdateCard UpdateType="Step Reactivation"
+                                                    Title="@task.Name"
+                                                    Description="@description"
+                                                    UserName="John Smith"
+                                                    Date="@task.CreatedDate" />
+                                }
                             }
                         </div>
 
@@ -97,17 +101,26 @@
                 </Right>
             </LeftRightLayout>
         }
-
-
     </Bottom>
 </TopBottomLayout>
 
 
-
+@if (isTaskDialogVisible && selectedTask is not null)
+{
+    <ModalPanelRight OnClickOutsideModel="CloseTaskDialog">
+        <TaskSummaryDialog TaskModel="selectedTask"
+                           OnPinTaskClicked="() => PinTask(selectedTask)"
+                           OnUnPinTaskClicked="() => UnpinTask(selectedTask)" />
+    </ModalPanelRight>
+}
 
 @code {
     private UserDashboardViewModel? viewModel;
     private bool isLoading = true;
+
+    // State for TaskSummaryDialog
+    private TaskModel? selectedTask;
+    private bool isTaskDialogVisible = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -125,10 +138,16 @@
             isLoading = false;
         }
     }
-
-    private async Task ViewTask(TaskModel task)
+    private void OpenTaskDialog(TaskModel task)
     {
-        // Implement view task logic
+        selectedTask = task;
+        isTaskDialogVisible = true;
+    }
+
+    private void CloseTaskDialog()
+    {
+        selectedTask = null;
+        isTaskDialogVisible = false;
     }
 
     private async Task PinTask(TaskModel task)
