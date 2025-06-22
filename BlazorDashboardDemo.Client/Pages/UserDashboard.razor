@@ -2,6 +2,7 @@
 @using BlazorDashboardDemo.Shared.Models
 @using BlazorDashboardDemo.Shared.Services
 @inject IUserDashboardService DashboardService
+@inject IJSRuntime JSRuntime
 
 
 <TopBottomLayout Mode="TopBottomLayout.LayoutMode.ScrollBottom">
@@ -24,6 +25,10 @@
                         <div class="dashboard-card">
                             <div class="dashboard-card-header">
                                 <h2>Pinned Tasks (@viewModel.PinnedTasks.Count())</h2>
+                                <div class="row column-gap-5px dashboard-card-navigation">
+                                    <span class="fa-solid fa-sm fa-chevron-left chevron-button" disabled="@isPreviousDisabled" @onclick="ShowPreviousCards" />
+                                    <span class="fa-solid fa-sm fa-chevron-right chevron-button" disabled="@isNextDisabled" @onclick="ShowNextCards" />
+                                </div>
                             </div>
                             <div class="dashboard-card-body ">
                                 @if (!viewModel.PinnedTasks.Any())
@@ -46,6 +51,10 @@
                         <div class="dashboard-card">
                             <div class="dashboard-card-header">
                                 <h2>What's Next?</h2>
+                                <div class="row column-gap-5px">
+                                    <span class="fa-solid fa-sm fa-chevron-left chevron-button" disabled="@isPreviousDisabled" @onclick="ShowPreviousCards" />
+                                    <span class="fa-solid fa-sm fa-chevron-right chevron-button" disabled="@isNextDisabled" @onclick="ShowNextCards" />
+                                </div>
                             </div>
                             <div class="dashboard-card-body">
                                 @if (!viewModel.WhatsNextTasks.Any())
@@ -117,6 +126,19 @@
     private TaskModel? selectedTask;
     private bool isTaskDialogVisible = false;
 
+    private List<TaskModel> visibleTasks = new();
+    private int currentStartIndex = 0;
+    private int cardsPerPage = 5; // Default value, will be calculated dynamically
+    private bool isPreviousDisabled => currentStartIndex == 0;
+    private bool isNextDisabled => currentStartIndex + cardsPerPage >= viewModel?.WhatsNextTasks.Count();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            cardsPerPage = await CalculateCardsPerPageAsync();
+            UpdateVisibleTasks();
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
         try
@@ -164,5 +186,43 @@
         task.AssignedUserId = viewModel?.CurrentUserId;
         await DashboardService.UpdateTaskAsync(task);
         StateHasChanged();
+    }
+    private async Task<int> CalculateCardsPerPageAsync()
+    {
+        // Use the injected JSRuntime instance to call JavaScript interop
+        var containerWidth = await JSRuntime.InvokeAsync<int>("getContainerWidth", ".dashboard-card-items");
+        const int cardWidth = 400; // Fixed card width
+        const int columnGap = 25; // Fixed column gap
+
+        // Calculate the total width required for each card (card width + column gap)
+        int totalCardWidth = cardWidth + columnGap;
+
+        // Calculate how many cards can fit within the container width
+        return Math.Max(containerWidth / totalCardWidth, 1); // Ensure at least one card is displayed
+    }
+
+    private void UpdateVisibleTasks()
+    {
+        Console.WriteLine($"Updating visible tasks: StartIndex={currentStartIndex}, CardsPerPage={cardsPerPage}");
+        visibleTasks = viewModel?.WhatsNextTasks.Skip(currentStartIndex).Take(cardsPerPage).ToList() ?? new List<TaskModel>();
+        Console.WriteLine($"Visible tasks count: {visibleTasks.Count}");
+    }
+
+    private void ShowPreviousCards()
+    {
+        if (currentStartIndex > 0)
+        {
+            currentStartIndex -= cardsPerPage;
+            UpdateVisibleTasks();
+        }
+    }
+
+    private void ShowNextCards()
+    {
+        if (currentStartIndex + cardsPerPage < viewModel?.WhatsNextTasks.Count())
+        {
+            currentStartIndex += cardsPerPage;
+            UpdateVisibleTasks();
+        }
     }
 }
